@@ -197,7 +197,7 @@ class fh02(nn.Module):
         self.wR2 = wR2(numPoints)
         self.wR2 = torch.nn.DataParallel(self.wR2, device_ids=range(torch.cuda.device_count()))
         if not path is None:
-            self.wR2.load_state_dict(torch.load(path))
+            self.wR2.load_state_dict(torch.load(path)) # , map_location="cpu"))
             # self.wR2 = self.wR2.cuda()
         # for param in self.wR2.parameters():
         #     param.requires_grad = False
@@ -258,7 +258,7 @@ def isEqual(labelGT, labelP):
 
 model_conv = fh02(numPoints, numClasses)
 model_conv = torch.nn.DataParallel(model_conv, device_ids=range(torch.cuda.device_count()))
-model_conv.load_state_dict(torch.load(resume_file))
+model_conv.load_state_dict(torch.load(resume_file)) # , map_location='cpu'))
 model_conv = model_conv.cuda()
 model_conv.eval()
 
